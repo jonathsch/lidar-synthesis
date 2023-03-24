@@ -9,6 +9,8 @@
 </div>
 
 ## Description
+
+![](assets/method.png)
   
 Novel-View Synthesis for LiDAR point clouds.
 
