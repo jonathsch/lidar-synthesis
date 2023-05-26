@@ -1,0 +1,27 @@
+_target_: models.nvidia.LitImageToSteering
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  _partial_: true
+  mode: min
+  factor: 0.1
+  patience: 25
+
+backbone:
+  _target_: models.components.2dcnn.CNNBackbone
+
+mlp:
+  _target_: models.components.mlp.MLP
+  in_dim: 512
+  out_dim: 1
+  hidden_dim: 128
+  num_layers: 3
+
+criterion:
+  _target_: torch.nn.MSELoss
