@@ -30,17 +30,25 @@ conda activate lidar-synthesis
 ```
 
 ## Generate Data
+Comming soon.
 
 ## Training
+Comming soon.
 
 ## Run Evaluation
 
-To evaluate a model, we first launch a CARLA server:
+1. Adjust the CARLA paths in `lidar_synthesis/leaderboard/scripts/local_evaluation.sh` to point to your CARLA 0.9.10 installation
+2. In the same file, set `TEAM_AGENT` to one of the following:
+    - `${WORK_DIR}/lidar_synthesis/agents/lidar2waypoints_agent.py`
+    - `${WORK_DIR}/lidar_synthesis/agents/lidar2steering_agent.py`
+    - `${WORK_DIR}/lidar_synthesis/agents/camera_agent.py`
+3. In the same file, set `CHECKPOINT_ENDPOINT` to the file you want the result to be written to.
+4. Navigate to the directory of your CARLA installation and launch a CARLA server by running:
 ```
-./CarlaUE4.sh --world-port=2000 -opengl
+DISPLAY= ./CarlaUE4.sh --world-port=2000 -opengl
 ```
 
-Once the CARLA server is running, evaluate an agent with the script:
+5. Once the CARLA server is running, evaluate the agent with the script:
 ```
 ./lidar_synthesis/leaderboard/scripts/local_evaluation.sh
 ```
