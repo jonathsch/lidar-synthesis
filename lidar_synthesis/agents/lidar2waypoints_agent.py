@@ -8,22 +8,21 @@ import cv2
 import open3d as o3d
 from scipy.spatial.transform import Rotation
 import torch
-from torchvision.transforms import ToTensor
 import lightning.pytorch as pl
 
 from lidar_synthesis.leaderboard.leaderboard.autoagents import autonomous_agent
 
 from lidar_synthesis.utils.pc_utils import random_sampling
-from lidar_synthesis.models.multi_camera import LitImageToSteering
+from lidar_synthesis.models.lidar2waypoints import LitLidar2Waypoints
 
-MODEL_PATH = Path("model_ckpt/multi-camera/best.ckpt")
+MODEL_PATH = Path("model_ckpt/lidar_waypoints/best.ckpt").resolve()
 
 
 def get_entry_point():
-    return "CameraAgent"
+    return "LidarAgent"
 
 
-class CameraAgent(autonomous_agent.AutonomousAgent):
+class LidarAgent(autonomous_agent.AutonomousAgent):
     """
     Dummy autonomous agent to control the ego vehicle
     """
@@ -32,7 +31,6 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         """
         Setup the agent parameters
         """
-        self.to_tensor = ToTensor()
 
         self.step = -1
         self.control = carla.VehicleControl()
@@ -46,8 +44,8 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         self.lidar_transform = Rotation.from_euler("xyz", [0, 0, -90], degrees=True)
 
         # Load model
-        model = LitImageToSteering.load_from_checkpoint(MODEL_PATH).to("cuda")
-        model.eval()
+        self.model = LitLidar2Waypoints.load_from_checkpoint(MODEL_PATH).to("cuda")
+        self.model.eval()
 
         ###############################
         # PID Controller
@@ -67,7 +65,7 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         self.brake_speed = 0.4  # desired speed below which brake is triggered
         self.brake_ratio = 1.1  # ratio of speed to desired speed at which brake is triggered
         self.clip_delta = 0.25  # maximum change in speed input to logitudinal controller
-        self.clip_throttle = 0.4  # Maximum throttle allowed by the controller
+        self.clip_throttle = 0.6  # Maximum throttle allowed by the controller
 
         self.turn_controller = PIDController(K_P=turn_KP, K_I=turn_KI, K_D=turn_KD, n=turn_n)
         self.speed_controller = PIDController(K_P=speed_KP, K_I=speed_KI, K_D=speed_KD, n=speed_n)
@@ -79,8 +77,8 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         :return: a list containing the required sensors in the following format:
 
         [
-            {'type': 'sensor.camera.rgb', 'x': 1.5, 'y': 0.0, 'z': 1.50, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
-                      'width': 512, 'height': 256, 'fov': 100, 'id': 'center'},
+            {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+                      'width': 300, 'height': 200, 'fov': 100, 'id': 'Left'},
 
             {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': 0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
                       'width': 300, 'height': 200, 'fov': 100, 'id': 'Right'},
@@ -94,16 +92,16 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         sensors = [
             {
                 "type": "sensor.camera.rgb",
-                "x": 1.5,
+                "x": 0.7,
                 "y": 0.0,
-                "z": 1.5,
+                "z": 1.60,
                 "roll": 0.0,
                 "pitch": 0.0,
                 "yaw": 0.0,
-                "width": 512,
-                "height": 256,
+                "width": 800,
+                "height": 600,
                 "fov": 100,
-                "id": "Center",
+                "id": "cam_center",
             },
             {
                 "type": "sensor.lidar.ray_cast",
@@ -137,6 +135,14 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
             waypoints (tensor): output of self.plan()
             velocity (tensor): speedometer input
         """
+        waypoints[1, 0] = (1.0 / 3.0) * waypoints[1, 3]
+        waypoints[1, 1] = (2.0 / 3.0) * waypoints[1, 3]
+        waypoints[1, 2] = 0.8 * waypoints[1, 3]
+
+        waypoints = waypoints.T
+
+        # when training we transform the waypoints to lidar coordinate, so we need to change is back when control
+        # waypoints[:, 0] += self.config.lidar_pos[0]
 
         speed = velocity
 
@@ -171,22 +177,35 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         Execute one step of navigation.
         """
         self.step += 1
-        if self.step % self.action_repeat == 1:
-            return self.control
 
-        # Convert camera input into tensor
-        image_buffer = np.copy(input_data["Center"][1][:, :, :3])
-        image = Image.frombuffer("RGB", (512, 256), image_buffer, "raw", "RGB", 0, 1)
-        image = self.to_tensor(image).unsqueeze(0).to("cuda")
+        # Get LiDAR point cloud
+        lidar = np.copy(input_data["lidar"][1][:, :3])
+        lidar = self.lidar_transform.apply(lidar)
+
+        # Drop points that are too far away or behind us
+        lidar = lidar[np.linalg.norm(lidar, axis=1) < 20.0]
+        lidar = lidar[lidar[:, 0] > 0.0]
+
+        lidar = random_sampling(lidar, 16_384).astype(np.float32)
+        lidar = torch.from_numpy(lidar.T).float().unsqueeze(0).to("cuda")
 
         # Run inference
-        steering = self.model(image)[0].detach().cpu().numpy().item()
+        waypoints = self.model(lidar)[0].detach().cpu().numpy()
+        waypoints = waypoints.reshape(2, 4)
+
+        speed = input_data["speed"][1]["speed"]
+
+        steer, throttle, brake = self._control_pid(
+            waypoints,
+            speed,
+            True,
+        )
 
         # Return control
         control = carla.VehicleControl()
-        control.steer = steering
-        control.throttle = 0.4
-        control.brake = 0.0
+        control.steer = steer
+        control.throttle = throttle
+        control.brake = float(brake)
 
         self.control = control
 
