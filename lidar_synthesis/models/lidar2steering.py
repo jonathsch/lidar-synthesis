@@ -8,15 +8,15 @@ import lightning.pytorch as pl
 from lidar_synthesis.models.components.pointnet2 import PointNet2Features
 
 
-class LitLidar2Waypoints(pl.LightningModule):
-    def __init__(self, learning_rate: float = 1e-3):
-        super(LitLidar2Waypoints, self).__init__()
+class LitLidar2Steering(pl.LightningModule):
+    def __init__(self, learning_rate: float = 1e-3, visualize_pcd: bool = False):
+        super(LitLidar2Steering, self).__init__()
 
         self.save_hyperparameters()
 
         # Network modules
         self.pointnet = PointNet2Features()
-        self.features2waypoints = nn.Sequential(
+        self.features2steering = nn.Sequential(
             nn.Linear(1024, 128),
             nn.BatchNorm1d(128),
             nn.ReLU(),
@@ -26,27 +26,29 @@ class LitLidar2Waypoints(pl.LightningModule):
             nn.Linear(128, 128),
             nn.BatchNorm1d(128),
             nn.ReLU(),
-            nn.Linear(128, 8),
+            nn.Linear(128, 1),
         )
+        self.tanh = nn.Tanh()
 
         self.loss_fn = nn.L1Loss()
 
     def forward(self, x: torch.tensor):
         x, _, _ = self.pointnet(x)
-        x = self.features2waypoints(x)
-        return x
+        x = self.steering_regression(x)
+        return self.tanh(x)
 
     def _general_step(self, batch, batch_idx):
         lidar_pcd = batch["lidar"]
-        waypoints = batch["waypoints"]
+        steering_gt = batch["steering"]
 
-        pred_waypoints = self.forward(lidar_pcd)
-        loss = self.loss_fn(pred_waypoints, torch.flatten(waypoints, start_dim=1))
+        steering_pred = self.forward(lidar_pcd)
+        loss = self.loss_fn(steering_pred, steering_gt)
         return loss
 
     def training_step(self, batch, batch_idx):
         loss = self._general_step(batch, batch_idx)
         self.log("train/loss", loss)
+
         return loss
 
     def validation_step(self, batch, batch_idx):

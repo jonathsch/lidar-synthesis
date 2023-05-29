@@ -3,7 +3,6 @@ import torch
 from torch import nn, optim
 import lightning.pytorch as pl
 from hydra.utils import instantiate
-from omegaconf import OmegaConf
 
 
 class LitImageToSteering(pl.LightningModule):
