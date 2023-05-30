@@ -110,6 +110,7 @@ def main(cfg: DictConfig) -> Optional[float]:
     # apply extra utilities
     # (e.g. ask for tags if none are provided in cfg, print cfg tree, etc.)
     utils.extras(cfg)
+    torch.cuda.init()
 
     # train the model
     metric_dict, _ = train(cfg)

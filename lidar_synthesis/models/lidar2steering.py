@@ -9,9 +9,8 @@ from lidar_synthesis.models.components.pointnet2 import PointNet2Features
 
 
 class LitLidar2Steering(pl.LightningModule):
-    def __init__(self, learning_rate: float = 1e-3, visualize_pcd: bool = False):
+    def __init__(self, learning_rate: float = 1e-3):
         super(LitLidar2Steering, self).__init__()
-
         self.save_hyperparameters()
 
         # Network modules
@@ -32,13 +31,13 @@ class LitLidar2Steering(pl.LightningModule):
         self.loss_fn = nn.L1Loss()
 
     def forward(self, x: torch.tensor):
-        x, _, _ = self.pointnet(x)
-        x = self.steering_regression(x)
+        x, _ = self.pointnet(x)
+        x = self.features2steering(x)
         return self.tanh(x)
 
     def _general_step(self, batch, batch_idx):
         lidar_pcd = batch["lidar"]
-        steering_gt = batch["steering"]
+        steering_gt = batch["steering"].view(-1, 1)
 
         steering_pred = self.forward(lidar_pcd)
         loss = self.loss_fn(steering_pred, steering_gt)

@@ -5,8 +5,8 @@ import torch
 from torch.utils.data import DataLoader, random_split
 import lightning.pytorch as pl
 
-from data.components.carla_lidar_dataset import AugmentedPseudoLidarSet
-from data.components.carla_lidar_dataset import BaselineLidarDataset
+from lidar_synthesis.data.components.carla_lidar_dataset import AugmentedPseudoLidarSet
+from lidar_synthesis.data.components.carla_augmented_lidar_dataset import CARLALidarDataset
 
 
 class LidarDataModule(pl.LightningDataModule):
@@ -26,7 +26,7 @@ class LidarDataModule(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
         root_dir = Path(self.hparams.root_dir).resolve()
-        dataset = BaselineLidarDataset(
+        dataset = CARLALidarDataset(
             root_dir,
             num_points=self.hparams.num_points,
             add_gaussian_noise=self.hparams.add_gaussian_noise,
@@ -67,7 +67,7 @@ class AugmentedPseudoLidarDataModule(pl.LightningDataModule):
         num_workers: int = 4,
         add_gaussian_noise: bool = False,
         num_points: int = 8192,
-        max_offset: float = 1.5,
+        max_offset: float = 1.7,
         use_histogram_sampling: bool = False,
         num_histogram_samples: Optional[int] = 200,
     ):
