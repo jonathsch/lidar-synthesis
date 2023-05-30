@@ -27,6 +27,7 @@ A suitable conda environment named `lidar-synthesis` can be created and activate
 ```
 conda env create -f environment.yaml
 conda activate lidar-synthesis
+pip install -e .
 ```
 
 ## Generate Data
