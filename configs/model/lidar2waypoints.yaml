@@ -1,0 +1,2 @@
+_target_: lidar_synthesis.models.lidar2waypoints.LitLidar2Waypoints
+learning_rate: 0.001

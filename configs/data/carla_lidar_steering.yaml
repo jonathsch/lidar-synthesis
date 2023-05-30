@@ -1,0 +1,7 @@
+_target_: lidar_synthesis.data.carla_lidar_datamodule.LidarDataModule
+root_dir: ${paths.data_dir}
+batch_size: 32
+add_gaussian_noise: True
+num_points: 16384
+use_histogram_sampling: True
+num_histogram_samples: 200
