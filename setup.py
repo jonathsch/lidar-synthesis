@@ -14,8 +14,7 @@ setup(
     # use this to customize global commands available in the terminal after installing the package
     entry_points={
         "console_scripts": [
-            "train_command = src.train:main",
-            "eval_command = src.eval:main",
+            "train_command = lidar_synthesis.train:main",
         ]
     },
 )
