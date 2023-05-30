@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import Dataset
 import open3d as o3d
 
-from utils.pc_utils import random_sampling
+from lidar_synthesis.utils.pc_utils import random_sampling
 
 
 class AugmentedPseudoLidarSet(Dataset):
