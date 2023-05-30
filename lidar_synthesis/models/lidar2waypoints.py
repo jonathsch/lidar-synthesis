@@ -6,6 +6,7 @@ from torch import nn, optim
 import lightning.pytorch as pl
 
 from lidar_synthesis.models.components.pointnet2 import PointNet2Features
+from lidar_synthesis.models.components.pointnet import PointNetfeat
 
 
 class LitLidar2Waypoints(pl.LightningModule):
@@ -15,7 +16,7 @@ class LitLidar2Waypoints(pl.LightningModule):
         self.save_hyperparameters()
 
         # Network modules
-        self.pointnet = PointNet2Features()
+        self.pointnet = PointNetfeat(feature_transform=True)
         self.features2waypoints = nn.Sequential(
             nn.Linear(1024, 128),
             nn.BatchNorm1d(128),

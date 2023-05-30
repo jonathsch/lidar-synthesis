@@ -2,7 +2,6 @@ import numpy as np
 import torch
 from torch import nn, optim
 import lightning.pytorch as pl
-from hydra.utils import instantiate
 
 
 class LitImageToSteering(pl.LightningModule):
@@ -63,10 +62,3 @@ class LitImageToSteering(pl.LightningModule):
             }
         else:
             return {"optimizer": optimizer}
-
-
-if __name__ == "__main__":
-    model = LitImageToSteering.load_from_checkpoint(
-        "logs/train/runs/2023-04-28_21-24-33/checkpoints/last.ckpt"
-    )
-    print(len(model.mlp.model))

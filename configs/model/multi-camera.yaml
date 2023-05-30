@@ -1,4 +1,4 @@
-_target_: models.nvidia.LitImageToSteering
+_target_: lidar_synthesis.models.multi_camera.LitImageToSteering
 
 optimizer:
   _target_: torch.optim.Adam
@@ -14,10 +14,10 @@ scheduler:
   patience: 25
 
 backbone:
-  _target_: models.components.2dcnn.CNNBackbone
+  _target_: lidar_synthesis.models.components.2dcnn.CNNBackbone
 
 mlp:
-  _target_: models.components.mlp.MLP
+  _target_: lidar_synthesis.models.components.mlp.MLP
   in_dim: 512
   out_dim: 1
   hidden_dim: 128

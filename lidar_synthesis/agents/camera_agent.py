@@ -46,8 +46,8 @@ class CameraAgent(autonomous_agent.AutonomousAgent):
         self.lidar_transform = Rotation.from_euler("xyz", [0, 0, -90], degrees=True)
 
         # Load model
-        model = LitImageToSteering.load_from_checkpoint(MODEL_PATH).to("cuda")
-        model.eval()
+        self.model = LitImageToSteering.load_from_checkpoint(MODEL_PATH).to("cuda")
+        self.model.eval()
 
         ###############################
         # PID Controller

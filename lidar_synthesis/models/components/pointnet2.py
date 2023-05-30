@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from models.components.pointnet2_utils import PointNetSetAbstraction
+from lidar_synthesis.models.components.pointnet2_utils import PointNetSetAbstraction
 
 
 class PointNet2Features(nn.Module):

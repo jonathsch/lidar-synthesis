@@ -29,7 +29,6 @@ class LitLidar2Steering(pl.LightningModule):
             nn.Linear(128, 1),
         )
         self.tanh = nn.Tanh()
-
         self.loss_fn = nn.L1Loss()
 
     def forward(self, x: torch.tensor):
