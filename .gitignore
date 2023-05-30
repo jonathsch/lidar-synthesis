@@ -149,7 +149,6 @@ configs/local/default.yaml
 /data/*
 /logs/
 .env
-model_ckpt/
 results/
 
 # Aim logging
