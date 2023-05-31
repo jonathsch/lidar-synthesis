@@ -15,7 +15,7 @@ from lidar_synthesis.leaderboard.leaderboard.autoagents import autonomous_agent
 from lidar_synthesis.utils.pc_utils import random_sampling
 from lidar_synthesis.models.lidar2waypoints import LitLidar2Waypoints
 
-MODEL_PATH = Path("model_ckpt/lidar_waypoints/best.ckpt").resolve()
+MODEL_PATH = Path("model_ckpt/lidar_waypoint/best.ckpt").resolve()
 
 
 def get_entry_point():
