@@ -178,6 +178,9 @@ class LidarAgent(autonomous_agent.AutonomousAgent):
         """
         self.step += 1
 
+        if self.step % self.action_repeat == 1:
+            return self.control
+
         # Get LiDAR point cloud
         lidar = np.copy(input_data["lidar"][1][:, :3])
         lidar = self.lidar_transform.apply(lidar)
