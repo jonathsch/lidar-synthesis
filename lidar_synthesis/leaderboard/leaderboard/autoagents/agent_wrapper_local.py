@@ -141,10 +141,10 @@ class AgentWrapper(object):
                 elif sensor_spec["type"].startswith("sensor.lidar"):
                     bp.set_attribute("range", str(20))
                     bp.set_attribute(
-                        "rotation_frequency", str(56000)
+                        "rotation_frequency", str(20.0)
                     )
                     bp.set_attribute(
-                        "points_per_second", str(10.0)
+                        "points_per_second", str(1000000)
                     )
                     bp.set_attribute("channels", str(64))
                     bp.set_attribute("atmosphere_attenuation_rate", str(0.000))
