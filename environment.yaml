@@ -137,7 +137,6 @@ dependencies:
     - beautifulsoup4==4.12.2
     - blessed==1.20.0
     - cachetools==5.3.1
-    - carla==0.9.14
     - certifi==2018.8.24
     - chardet==3.0.4
     - click==8.1.3
