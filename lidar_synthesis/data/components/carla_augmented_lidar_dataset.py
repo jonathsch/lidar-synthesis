@@ -28,7 +28,7 @@ class CARLALidarDataset(Dataset):
 
         sequences = [
             p
-            for p in self.root.joinpath("town1").iterdir()
+            for p in self.root.iterdir()
             if p.is_dir() and p.name.startswith("sequence_")
         ]
         self.index = []

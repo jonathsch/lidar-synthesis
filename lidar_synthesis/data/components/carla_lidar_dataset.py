@@ -33,8 +33,8 @@ class AugmentedPseudoLidarSet(Dataset):
         self.index = []
         sequences = [
             p
-            for p in self.root.joinpath("town1").iterdir()
-            if p.is_dir() and p.name.startswith("sequence") and int(p.name[9]) <= 3
+            for p in self.root.iterdir()
+            if p.is_dir() and p.name.startswith("sequence")
         ]
 
         for seq in sorted(sequences):
@@ -50,15 +50,12 @@ class AugmentedPseudoLidarSet(Dataset):
         self.index = [item for sublist in self.index for item in sublist]
         self.index_df = pd.DataFrame(self.index)
 
-        # self.index_df = self.index_df[self.index_df["file"].str.endswith("-4.ply")]
-
         if self.use_histogram_sampling:
             self.index_df = self.index_df.groupby(
                 self.index_df["dy"].apply(lambda x: round(x, 1))
             ).apply(lambda x: x.sample(self.num_histogram_samples, replace=True, ignore_index=True))
 
         self.index_df.reset_index(drop=True, inplace=True)
-        print(f"Loaded {len(self.index_df)} samples")
 
     def __len__(self):
         return len(self.index_df)
@@ -71,13 +68,10 @@ class AugmentedPseudoLidarSet(Dataset):
             noise = np.random.normal(scale=0.005, size=len(pc.T) * 3).reshape(pc.shape)
             pc += noise
 
-        dy = np.float32(self.index_df["dy"][idx])
         waypoints = np.array(self.index_df["waypoints"][idx]).astype(np.float32)
         waypoints = waypoints[:, 1:]
-        # waypoints[1] *= -1
 
         return {
-            "steering": dy,
             "waypoints": waypoints,
             "lidar": pc,
         }
