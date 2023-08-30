@@ -2,7 +2,7 @@
 
 # LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels
   
-### [Project Page](https://jonathsch.github.io/lidar-synthesis/) | [Arxiv](https://arxiv.org/abs/2308.01424)
+### [Project Page](https://jonathsch.github.io/lidar-synthesis/)
   
 [Jonathan Schmidt](https://github.com/jonathsch)<sup>1,2</sup>,
 [Qadeer Khan](https://cvg.cit.tum.de/members/khamuham)<sup>1,2</sup>
