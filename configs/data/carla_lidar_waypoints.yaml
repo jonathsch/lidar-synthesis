@@ -1,3 +1,0 @@
-_target_: lidar_synthesis.data.carla_lidar_datamodule.AugmentedPseudoLidarDataModule
-root_dir: ${paths.data_dir}
-batch_size: 32

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description"
+    content="LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels - Project Page">
+  <meta property="og:title" content="LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels" />
+  <meta property="og:description"
+    content="LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels - ITSC 2023 Project Page" />
+  <meta property="og:url" content="https://jonathsch.github.io/lidar-synthesis/" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/method-overview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+
+  <meta name="twitter:title" content="LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels">
+  <meta name="twitter:description"
+    content="LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels - ITSC 2023 Project Page">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/method-overview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="LiDAR self-driving computer-vision deep-learning AI">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels</title>
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@v0.149.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@v0.149.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">LiDAR View Synthesis for Robust Vehicle Navigation Without Expert
+              Labels</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://github.com/jonathsch" target="_blank">Jonathan Schmidt</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://cvg.cit.tum.de/members/khamuham" target="_blank">Qadeer Khan</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://cvg.cit.tum.de/members/cremers" target="_blank">Daniel Cremers</a><sup>1,2,3</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Technical University of Munich, <sup>2</sup>Munich Center for
+                Machine Learning (MCML), <sup>3</sup>University of Oxford<br><br>
+                <p style="font-weight: bold;">ITSC 2023 (Best Paper Award Candidate)</p>
+              </span>
+              <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Arxiv PDF link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2308.01424.pdf" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- Supplementary PDF link -->
+                <!-- <span class="link-block">
+                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span> -->
+
+                <!-- Github link -->
+                <span class="link-block">
+                  <a href="https://github.com/jonathsch/lidar-synthesis" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2308.01424" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Teaser video-->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/method-overview.jpg" alt="MY ALT TEXT" />
+        <h2 class="subtitle has-text-centered">
+          Steps for synthesizing additional LiDAR scans and generating their corresponding labels, given an unlabeled
+          sequence of LiDAR scans from a LiDAR sensor attached to the car.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <!-- End teaser video -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Deep learning models for self-driving cars require a diverse training
+              dataset to manage critical driving scenarios on public roads safely.
+              This includes having data from divergent trajectories, such as the
+              oncoming traffic lane or sidewalks. Such data would be too dangerous
+              to collect in the real world. Data augmentation approaches have been
+              proposed to tackle this issue using RGB images. However, solutions
+              based on LiDAR sensors are scarce. Therefore, we propose synthesizing
+              additional LiDAR point clouds from novel viewpoints without physically
+              driving at dangerous positions. The LiDAR view synthesis is done using
+              mesh reconstruction and ray casting. We train a deep learning model,
+              which takes a LiDAR scan as input and predicts the future trajectory
+              as output. A waypoint controller is then applied to this predicted
+              trajectory to determine the throttle and steering labels of the
+              ego-vehicle. Our method neither requires expert driving labels for the
+              original nor the synthesized LiDAR sequence. Instead, we infer labels
+              from LiDAR odometry. We demonstrate the effectiveness of our approach
+              in a comprehensive online evaluation and with a comparison to
+              concurrent work. Our results show the importance of synthesizing
+              additional LiDAR point clouds, particularly in terms of model
+              robustness.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <!-- Paper video -->
+  <section class="section hero" id="carla-video">
+    <div class="container is-max-desktop">
+      <div class="hero-body has-text-centered">
+        <h2 class="title is-3">Qualitative Analysis</h2>
+        <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <!-- Your video here -->
+          <source src="static/images/video.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+          Online Evaluation of our method using the CARLA simulator.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <!-- End paper video -->
+
+  <!-- Video carousel -->
+  <section class="hero is-small is-light" id="synthesis">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h2 class="title is-3">Point Cloud Synthesis</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <p>We synthesize LiDAR-like point clouds from novel viewpoints, lateral to the original trajectory. The
+              animations below depict the importance of aligning the point clouds.</p>
+          </div>
+        </div>
+        <div id="results-carousel" class="carousel results-carousel"
+          style="max-width: 40rem; min-height: 32rem; aspect-ratio: 1; margin-left: auto; margin-right: auto;">
+          <div class="item item-video1">
+            <video poster="" id="video1" autoplay controls muted loop height="100%">
+              <!-- Your video file here -->
+              <source src="static/images/aligned.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">
+              <span style="font-weight: bold;">With</span> point cloud alignment
+            </h2>
+          </div>
+          <div class="item item-video2">
+            <video poster="" id="video2" autoplay controls muted loop height="100%">
+              <!-- Your video file here -->
+              <source src="static/images/unaligned.mp4" type="video/mp4">
+            </video>
+            <h2 class="subtitle has-text-centered">
+              <span style="font-weight: bold;">Without</span> point cloud alignment
+            </h2>
+          </div>
+          <!-- <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="100%">\
+            <source src="static/videos/carousel3.mp4"
+            type="video/mp4">
+          </video>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End video carousel -->
+
+  <!-- Interactive Viewer -->
+  <script type="module" src="static/js/pc_viewer.js"></script>
+  <section class="hero is-small" id="point-clouds">
+    <div class="hero-body">
+      <div class="container has-text-centered is-max-desktop">
+        <h2 class="title">Boundaries of the Synthesis</h2>
+        <p style="padding-bottom: 3rem;">Below is an interactive viewer for an example, where the synthesized LiDAR scan
+          lies too far off the reference trajectory. This leads to an unrealistic scenario wherein the car drives
+          straight through the barrier. (The green denotes the road, the blue are the sidewalk and red points indicate
+          barriers / fences)</p>
+        <div class="container" style="max-width: 40rem; aspect-ratio: 1;">
+          <three-js-pcd-viewer data-path="static/images/raycast-overshoot.pcd">
+            <div></div>
+          </three-js-pcd-viewer>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--BibTex citation -->
+  <section class="section is-small is-light" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title has-text-centered">BibTeX</h2>
+      <pre><code>@inproceedings{schmidt2023lidar,
+    title = {LiDAR View Synthesis for Robust Vehicle Navigation Without Expert Labels},
+    booktitle = {IEEE 26th International Conference on Intelligent Transportation Systems},
+    author = {Schmidt, Jonathan and Khan, Qadeer and Cremers, Daniel},
+    year = {2023},
+}</code></pre>
+    </div>
+  </section>
+  <!--End BibTex citation -->
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

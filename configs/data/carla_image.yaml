@@ -1,6 +1,0 @@
-_target_: lidar_synthesis.data.carla_image.CARLAImageDataModule
-data_dir: ${paths.data_dir}
-batch_size: 32
-val_split: 0.2
-num_workers: 4
-pin_memory: False
